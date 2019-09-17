@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     return res.send(Object.values(req.context.models.master.monster));
 });
 
-router.put('/', (req, res) => {
+router.post('/', (req, res) => {
   const id = uuidv4();
 
   if (!!req.context.models.master.monster.id){
@@ -32,7 +32,7 @@ router.put('/', (req, res) => {
 
 });
 
-router.post('/:monsterID', (req, res) => {
+router.put('/:monsterID', (req, res) => {
     var monster = req.context.models.master.monster[req.params.monsterID];
     if (!!monster) {
         const monsterUpdate = req.body
@@ -44,6 +44,6 @@ router.post('/:monsterID', (req, res) => {
     }
         
     return res.send(monster);
-  });
+});
 
 export default router;
