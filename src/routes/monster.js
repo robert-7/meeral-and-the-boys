@@ -4,7 +4,7 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', (req, res) => {
-    return res.send(Object.values(req.context.models.master.monster));
+    return res.send(req.context.models.master);
 });
 
 router.post('/', (req, res) => {
@@ -32,8 +32,8 @@ router.post('/', (req, res) => {
 
 });
 
-router.put('/:monsterID', (req, res) => {
-    var monster = req.context.models.master.monster[req.params.monsterID];
+router.put('/', (req, res) => {
+    var monster = req.context.models.master.monster;
     if (!!monster) {
         const monsterUpdate = req.body
         for (var key in monsterUpdate) { monster[key] = monsterUpdate[key]; }
@@ -43,7 +43,7 @@ router.put('/:monsterID', (req, res) => {
         return res.send('monster not found');
     }
         
-    return res.send(monster);
-});
+    return res.send(req.context.models.master);
+  });
 
 export default router;
