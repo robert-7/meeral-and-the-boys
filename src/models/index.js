@@ -22,12 +22,16 @@ let messages = {
   },
 };
 
-let planes = {
-
+let master = {
+  "planes": {
+  },
+  "monster": {
+  }
 }
+
 
 export default {
   users,
   messages,
-  planes,
+  master,
 };
