@@ -25,7 +25,7 @@ public class NetworkManager : MonoBehaviour {
     }
 
     void PollServer() {
-        Debug.Log("poll" + this.timeSince);
+        //Debug.Log("poll" + this.timeSince);
     }
 
     public void Beep() {
