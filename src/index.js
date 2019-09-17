@@ -24,13 +24,14 @@ app.use((req, res, next) => {
 });
 
 // Routes
-
 app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/messages', routes.message);
 app.use('/planes', routes.plane);
-// Start
+app.use('/monster', routes.monster);
+app.use('/master', routes.master);
 
+// Start
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`),
 );
