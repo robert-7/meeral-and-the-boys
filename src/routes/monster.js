@@ -8,14 +8,12 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const id = uuidv4();
 
   if (!!req.context.models.master.monster.id){
     return res.send(req.context.models.master.monster);
   }
   else{
     const newMonster = {
-      id,
       health: 7 * 
         req.context.models.master.planes.length || 5,
       lh: [-10,0,0],

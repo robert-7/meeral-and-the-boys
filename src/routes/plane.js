@@ -13,12 +13,10 @@ router.post('/', (req, res) => {
   const newPlane = {
     id,
     lives: 20,
-    coord: [ // (radius - [0-100], y-rotation - [0-359], z-rotation - [0-359])
-        Math.floor(Math.random() * 100) + 1, 
+    rotation: [ // y-rotation - [0-359], z-rotation - [0-359])
         Math.floor(Math.random() * 360) + 1,
         Math.floor(Math.random() * 360) + 1
-    ],
-    rotation: 90,
+    ]
   };
 
   req.context.models.master.planes[id] = newPlane;
