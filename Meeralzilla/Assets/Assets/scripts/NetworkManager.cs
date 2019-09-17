@@ -6,8 +6,26 @@ using System.IO;
 using System.Net;
 
 public class NetworkManager : MonoBehaviour {
+    private static NetworkManager instance = null;
+
+    private Queue<Event> eventQueue = new Queue<Event>();
+
+    enum eventCodes {shoot = 1, planeDead = 2};
+
     private double timeSince = 0;
     private const double pollTime = 0.1;
+
+    /*private NetworkManager() {
+    }*/
+
+    public static NetworkManager Instance {
+        get {
+            if (instance == null) {
+                instance = new NetworkManager();
+            }
+            return instance;
+        }
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -26,6 +44,23 @@ public class NetworkManager : MonoBehaviour {
 
     void PollServer() {
         //Debug.Log("poll" + this.timeSince);
+        GameState state = new GameState();
+        string json = JsonUtility.ToJson(state);
+        Debug.Log(json);
+    }
+
+    // Called when a plane controlled locally takes a shot
+    public void ShootBullet() {
+        Event shootEvent = new Event();
+        shootEvent.eventCode = (int)eventCodes.shoot;
+        this.eventQueue.Enqueue(shootEvent);
+    }
+
+    // Called when a monster controlled locally smacks a plane
+    public void KillPlane() {
+        Event killEvent = new Event();
+        killEvent.eventCode = (int)eventCodes.planeDead;
+        this.eventQueue.Enqueue(killEvent);
     }
 
     public void Beep() {
