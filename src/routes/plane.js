@@ -4,7 +4,7 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', (req, res) => {
-    return res.send(Object.values(req.context.models.planes));
+    return res.send(Object.values(req.context.models.master.planes));
   });
 
 router.put('/', (req, res) => {
@@ -21,12 +21,12 @@ router.put('/', (req, res) => {
     rotation: 90,
   };
 
-  req.context.models.planes[id] = newPlane;
+  req.context.models.master.planes[id] = newPlane;
   return res.send(newPlane);
 });
 
 router.post('/:planeID', (req, res) => {
-    var plane = req.context.models.planes[req.params.planeID];
+    var plane = req.context.models.master.planes[req.params.planeID];
     if (!!plane) {
         const planeUpdate = req.body
         for (var key in planeUpdate) { plane[key] = planeUpdate[key]; }
