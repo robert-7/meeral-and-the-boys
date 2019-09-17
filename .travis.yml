@@ -1,10 +1,10 @@
 language: node_js
-node_js: "8"
 
-sudo: required
-services: mongodb
+node_js:
+  - stable
 
-install: yarn
+install:
+  - npm install
 
-before_script: yarn start & sleep 5
-script: yarn test
+script:
+  - npm test
