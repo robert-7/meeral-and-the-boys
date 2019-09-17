@@ -4,39 +4,41 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', (req, res) => {
-    return res.send(Object.values(req.context.models.master.planes));
+    return res.send(req.context.models.master);
   });
 
-router.put('/', (req, res) => {
+router.post('/', (req, res) => {
   const id = uuidv4();
 
   const newPlane = {
     id,
     lives: 20,
-    coord: [ // (radius - [0-100], y-rotation - [0-359], z-rotation - [0-359])
-        Math.floor(Math.random() * 100) + 1, 
-        Math.floor(Math.random() * 359) + 1,
-        Math.floor(Math.random() * 359) + 1
-    ],
-    rotation: 90,
+    rotation: [ // y-rotation - [0-359], z-rotation - [0-359])
+        Math.floor(Math.random() * 360) + 1,
+        Math.floor(Math.random() * 360) + 1
+    ]
   };
 
   req.context.models.master.planes[id] = newPlane;
   return res.send(newPlane);
 });
 
-router.post('/:planeID', (req, res) => {
+router.put('/:planeID', (req, res) => {
     var plane = req.context.models.master.planes[req.params.planeID];
+    console.log(plane);
     if (!!plane) {
-        const planeUpdate = req.body
-        for (var key in planeUpdate) { plane[key] = planeUpdate[key]; }
+      const planeUpdate = req.body
+
+      for (var key in planeUpdate) {
+        plane[key] = planeUpdate[key];
+      }
     }
     else{
-        console.log('plane not found')
+        console.log('plane not found');
         return res.send('plane not found');
     }
         
-    return res.send(plane);
+    return res.send(req.context.models.master);
   });
 
 export default router;

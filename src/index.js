@@ -17,8 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   req.context = {
-    models,
-    me: models.users[1],
+    models
   };
   next();
 });

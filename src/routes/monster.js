@@ -4,18 +4,16 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', (req, res) => {
-    return res.send(Object.values(req.context.models.master.monster));
+    return res.send(req.context.models.master);
 });
 
-router.put('/', (req, res) => {
-  const id = uuidv4();
+router.post('/', (req, res) => {
 
   if (!!req.context.models.master.monster.id){
     return res.send(req.context.models.master.monster);
   }
   else{
     const newMonster = {
-      id,
       health: 7 * 
         req.context.models.master.planes.length || 5,
       lh: [-10,0,0],
@@ -32,8 +30,8 @@ router.put('/', (req, res) => {
 
 });
 
-router.post('/:monsterID', (req, res) => {
-    var monster = req.context.models.master.monster[req.params.monsterID];
+router.put('/', (req, res) => {
+    var monster = req.context.models.master.monster;
     if (!!monster) {
         const monsterUpdate = req.body
         for (var key in monsterUpdate) { monster[key] = monsterUpdate[key]; }
@@ -43,7 +41,7 @@ router.post('/:monsterID', (req, res) => {
         return res.send('monster not found');
     }
         
-    return res.send(monster);
+    return res.send(req.context.models.master);
   });
 
 export default router;
