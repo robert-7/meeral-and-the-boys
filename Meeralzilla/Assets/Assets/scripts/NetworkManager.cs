@@ -113,6 +113,7 @@ public class NetworkManager : MonoBehaviour {
 
         // call server with update and get new state back
         string newStateJson = this.sendServerCall(url, "PUT", serverUpdateJson);
+        Debug.Log(newStateJson);
         newState = JsonUtility.FromJson<GameState>(newStateJson);
 
         // Call any events if present
