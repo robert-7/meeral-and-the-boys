@@ -224,7 +224,8 @@ MonoBehaviour:
   propBlured: {fileID: 6769064424795566919}
   speed: 10
   engenOn: 1
-  projectile: {fileID: 0}
+  projectile: {fileID: 4923630845353091144, guid: 887d4229d9c09444e8d9cf1f5d5ba975,
+    type: 3}
 --- !u!1 &6769064424795566917
 GameObject:
   m_ObjectHideFlags: 0
