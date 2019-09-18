@@ -17,4 +17,5 @@ public class monsterbase : MonoBehaviour
     {
         transform.Rotate(0.0f, -Input.GetAxis("Horizontal") * speed, -Input.GetAxis("Vertical") * speed);
     }
+
 }

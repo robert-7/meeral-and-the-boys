@@ -25,6 +25,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/planes', routes.plane);
 app.use('/monster', routes.monster);
+app.use('/gameUpdate', routes.update);
 
 // Start
 app.listen(process.env.PORT, () =>
