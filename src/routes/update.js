@@ -21,7 +21,7 @@ router.put('/', (req, res) => {
     var master = req.context.models.master;
 
     // If it's a plane update request...
-    if (!!req.body.selfPlane) {
+    if (!!req.body.selfPlane && !!req.body.selfPlane.exists) {
       const planeUpdates = req.body.selfPlane;
       const planeID = req.body.selfPlane.id;
 
@@ -48,7 +48,7 @@ router.put('/', (req, res) => {
     }
 
     // If it's a monster update request...
-    if (!!req.body.selfMonster) {
+    if (!!req.body.selfMonster && !!req.body.selfMonster.exists) {
         const monsterUpdates = req.body.selfMonster;
   
         if (master.monster !== undefined) {
