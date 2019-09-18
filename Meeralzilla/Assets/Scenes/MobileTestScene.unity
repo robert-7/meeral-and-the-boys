@@ -2002,17 +2002,17 @@ PrefabInstance:
     - target: {fileID: 3987452061498650951, guid: 3cc8f88ee4249464eafddbab723dd9f0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.5339355
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3987452061498650951, guid: 3cc8f88ee4249464eafddbab723dd9f0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.021988
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3987452061498650951, guid: 3cc8f88ee4249464eafddbab723dd9f0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.2735221
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3987452061498650951, guid: 3cc8f88ee4249464eafddbab723dd9f0,
         type: 3}
@@ -2082,6 +2082,12 @@ PrefabInstance:
       propertyPath: HeadPrefab
       value: 
       objectReference: {fileID: 1713781036754730, guid: 0f8a471e5537f864ebdb454fe82308eb,
+        type: 3}
+    - target: {fileID: 8769268268307266047, guid: 3cc8f88ee4249464eafddbab723dd9f0,
+        type: 3}
+      propertyPath: dronePrefab
+      value: 
+      objectReference: {fileID: 7399924360332254099, guid: 0700245f71afe17439945387c05cf4dc,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cc8f88ee4249464eafddbab723dd9f0, type: 3}
