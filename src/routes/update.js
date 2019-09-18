@@ -25,22 +25,25 @@ router.put('/', (req, res) => {
       const planeUpdates = req.body.plane;
       const planeID = req.body.plane.id;
 
-      if (master.planes[planeID] !== undefined) {
+      if (planeID !== undefined) {
 
-        // Respawn logic.
-        if (master.planes[planeID].deathTime !== 0) {
-            if (Date.now() - master.planes[planeID].deathTime > respawnTime) {
-            master.planes[planeID].deathTime = 0;
-            master.planes[planeID].status = 'alive'
+        if (master.planes[planeID] !== undefined) {
+
+          // Respawn logic.
+          if (master.planes[planeID].deathTime !== 0) {
+              if (Date.now() - master.planes[planeID].deathTime > respawnTime) {
+              master.planes[planeID].deathTime = 0;
+              master.planes[planeID].status = 'alive'
+            }
           }
-        }
 
-        for (var key in planeUpdates) { // Update typical plane data...
-          master.planes[planeID][key] = planeUpdates[key];
+          for (var key in planeUpdates) { // Update typical plane data...
+            master.planes[planeID][key] = planeUpdates[key];
+          }
+        } else {
+          console.log('plane not found: ' + planeID);
+          return res.send('plane not found: ' + planeID);
         }
-      } else {
-        console.log('plane not found: ' + planeID);
-        return res.send('plane not found: ' + planeID);
       }
     }
 
@@ -74,7 +77,7 @@ router.put('/', (req, res) => {
             if (master.planes[eventPlaneID].lives === 0) { // If 0, delete plane permanently.
                 delete req.context.models.master.planes[eventPlaneID];
             } else {
-                plane.status = "dead";
+              master.planes[eventPlaneID].status = "dead";
             }
         } else {
         console.log('plane not found: ' + eventPlaneID);
