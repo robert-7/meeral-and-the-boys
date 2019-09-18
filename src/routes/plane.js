@@ -77,6 +77,7 @@ router.put('/', (req, res) => {
       } else if (newEvent.type === 2) { // hit even, update plane life.
         if (master.planes[eventPlaneID] !== undefined) {
           master.planes[eventPlaneID].lives--; // minus plane life
+          master.planes[eventPlaneID].deathTime = Date.now(); // set deathTime.
           if (master.planes[eventPlaneID].lives === 0) { // If 0, delete plane permanently.
             delete req.context.models.master.planes[eventPlaneID];
           } else {
