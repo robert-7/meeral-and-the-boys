@@ -58,7 +58,7 @@ router.put('/', (req, res) => {
           for (var key in monsterUpdates) { // Update typical monster data...
             if (key !== 'health') {
               if (monsterUpdates[key].length > 0) {
-                master.monsterUpdates[key] = monsterUpdates[key];
+                master.monster[key] = monsterUpdates[key];
               }
             }
           }
