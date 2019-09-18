@@ -141,8 +141,8 @@ public class NetworkManager : MonoBehaviour {
 
         // Check if any of the planes are us
         int foundSelfPlaneAtIndex = -1;
-        for (int i = 0; i < newState.planes.Length; i++) {
-            if (newState.planes[i].id == this.selfId) {
+        for (int i = 0; i < newState.planeList.Length; i++) {
+            if (newState.planeList[i].id == this.selfId) {
                 foundSelfPlaneAtIndex = i;
                 break;
             }
@@ -150,15 +150,15 @@ public class NetworkManager : MonoBehaviour {
 
         // If one of the planes is us, filter it out
         if (foundSelfPlaneAtIndex >= 0) {
-            PlaneState[] newPlaneStates = new PlaneState[newState.planes.Length - 1];
-            for (int i = 0; i < newState.planes.Length; i++) {
+            PlaneState[] newPlaneStates = new PlaneState[newState.planeList.Length - 1];
+            for (int i = 0; i < newState.planeList.Length; i++) {
                 if (i < foundSelfPlaneAtIndex) {
-                    newPlaneStates[i] = newState.planes[i];
+                    newPlaneStates[i] = newState.planeList[i];
                 } else if (i > foundSelfPlaneAtIndex) {
-                    newPlaneStates[i - 1] = newState.planes[i];
+                    newPlaneStates[i - 1] = newState.planeList[i];
                 }
             }
-            newState.planes = newPlaneStates;
+            newState.planeList = newPlaneStates;
         }
 
         this.dm.updateState(newState);
@@ -256,7 +256,7 @@ public class NetworkManager : MonoBehaviour {
 [Serializable]
 public class GameState {
     public MonsterState monster;
-    public PlaneState[] planes;
+    public PlaneState[] planeList;
     public Event[] events;
 }
 

@@ -30,7 +30,7 @@ public class DroneManager : MonoBehaviour
         //Planes
         dirtyMap.Clear();
 
-        foreach (PlaneState ps in gs.planes) {
+        foreach (PlaneState ps in gs.planeList) {
            if (droneMap.ContainsKey(ps.id)) {
                 //make planes move around
                 GameObject droneObj = droneMap[ps.id];
