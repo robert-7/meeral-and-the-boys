@@ -58,7 +58,7 @@ public class NetworkManager : MonoBehaviour {
         StartCoroutine(this.networkCoroutine);
 
        // Debug.Log("sdalfasdfdasfa");
-        Beep();
+     //   Beep();
     }
 
     // Update is called once per frame
@@ -242,32 +242,6 @@ public class NetworkManager : MonoBehaviour {
         return responseFromServer;
     }
 
-    public void Beep() {
-        // Create a request for the URL.   
-        WebRequest request = WebRequest.Create(
-          "http://www.allsn.ca");
-        // If required by the server, set the credentials.  
-        request.Credentials = CredentialCache.DefaultCredentials;
-
-        // Get the response.  
-        WebResponse response = request.GetResponse();
-        // Display the status.  
-        //Debug.Log(((HttpWebResponse)response).StatusDescription);
-
-        // Get the stream containing content returned by the server. 
-        // The using block ensures the stream is automatically closed. 
-        using (Stream dataStream = response.GetResponseStream()) {
-            // Open the stream using a StreamReader for easy access.  
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.  
-            string responseFromServer = reader.ReadToEnd();
-            // Display the content.  
-            Debug.Log(responseFromServer);
-        }
-
-        // Close the response.  
-        response.Close();
-    }
 }
 
 [Serializable]
