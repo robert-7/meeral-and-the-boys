@@ -26,6 +26,8 @@ public class NetworkManager : MonoBehaviour {
     private monsterbase mb;
     private PlaneController pc;
 
+    private IEnumerator networkCoroutine;
+
     /*private NetworkManager() {
     }*/
 
@@ -52,16 +54,27 @@ public class NetworkManager : MonoBehaviour {
         
         this.RegisterWithServer();
 
+        this.networkCoroutine = DoServerUpdate();
+        StartCoroutine(this.networkCoroutine);
+
         Debug.Log("sdalfasdfdasfa");
         Beep();
     }
 
     // Update is called once per frame
     void Update() {
-        this.timeSince += Time.deltaTime;
+       /* this.timeSince += Time.deltaTime;
         if (this.timeSince >= pollTime) {
             this.timeSince -= pollTime;
             PollServer();
+        }*/
+    }
+
+    IEnumerator DoServerUpdate() {
+        for (; ; )
+        {
+            PollServer();
+            yield return new WaitForSeconds(.1f);
         }
     }
 
