@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MobileTestScene.unity
     guid: c235e658a290d1c469f817e412697782
+  - enabled: 1
+    path: Assets/MonsterMenu.unity
+    guid: 6559069e2ed63f148827656058a14f65
+  - enabled: 1
+    path: Assets/Scenes/Main Scene.unity
+    guid: 95c00e8455047a841969a4e4fef45869
   m_configObjects: {}
