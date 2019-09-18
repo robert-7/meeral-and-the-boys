@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Net;
+using System.Text;
 
 public class NetworkManager : MonoBehaviour {
     private static NetworkManager instance = null;
@@ -12,13 +13,14 @@ public class NetworkManager : MonoBehaviour {
     private Dictionary<string, bool> eventsSeen = new Dictionary<string, bool>();
 
     enum eventCodes { shoot = 1, planeDead = 2 };
-    enum playerType { plane, monster }
+    public enum playerType { plane, monster }
 
     private double timeSince = 0;
     private const double pollTime = 0.1;
-    private playerType whatAmI = playerType.plane;
+    public playerType whatAmI = playerType.plane;
     private int eventCounter = 0;
     private string selfId;
+    public string ServerUrlBase = ""; // No trailing slash
 
     private DroneManager dm;
 
@@ -37,6 +39,7 @@ public class NetworkManager : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         this.dm = gameObject.GetComponent<DroneManager>();
+        this.RegisterWithServer();
 
         Debug.Log("sdalfasdfdasfa");
         Beep();
@@ -48,6 +51,24 @@ public class NetworkManager : MonoBehaviour {
         if (this.timeSince >= pollTime) {
             this.timeSince -= pollTime;
             PollServer();
+        }
+    }
+
+    void RegisterWithServer() {
+        string endpoint;
+
+        if (this.whatAmI == playerType.plane) {
+            endpoint = "/planes";
+        } else {
+            endpoint = "/monsters";
+        }
+
+        string url = this.ServerUrlBase + endpoint;
+        string info = this.sendServerCall(url, "POST", "");
+
+        RegisterResponse resp = JsonUtility.FromJson<RegisterResponse>(info);
+        if (resp.id != "") {
+            this.selfId = resp.id;
         }
     }
 
@@ -71,11 +92,16 @@ public class NetworkManager : MonoBehaviour {
                 serverUpdate.eventsOccurred[i] = this.eventQueue.Dequeue();
             }
         }
+        // TODO: get plane or monster state from playermanager/monstermanager and insert into serverUpdate
+
 
         string serverUpdateJson = JsonUtility.ToJson(serverUpdate);
         Debug.Log(serverUpdateJson);
+        string url = this.ServerUrlBase + "/update";
 
-        // TODO: call server with update and get new state back
+        // call server with update and get new state back
+        string newStateJson = this.sendServerCall(url, "PUT", serverUpdateJson);
+        newState = JsonUtility.FromJson<GameState>(newStateJson);
 
         // Call any events if present
         if (newState.events != null) {
@@ -159,6 +185,34 @@ public class NetworkManager : MonoBehaviour {
         this.eventQueue.Enqueue(killEvent);
     }
 
+    private string sendServerCall(string url, string method, string data) {
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        if (method != "") {
+            request.Method = method;
+        }
+        if (data.Length > 0) {
+            byte[] byteArray = Encoding.UTF8.GetBytes(data);
+            request.ContentLength = byteArray.Length;
+            request.ContentType = "application/json";
+            Stream dataStream = request.GetRequestStream();
+            dataStream.Write(byteArray, 0, byteArray.Length);
+            dataStream.Close();
+        }
+
+        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        string responseFromServer;
+
+        using (Stream dataStream = response.GetResponseStream()) {
+            StreamReader reader = new StreamReader(dataStream);
+            responseFromServer = reader.ReadToEnd();
+           // Debug.Log(responseFromServer);
+        }
+
+        response.Close();
+
+        return responseFromServer;
+    }
+
     public void Beep() {
         // Create a request for the URL.   
         WebRequest request = WebRequest.Create(
@@ -225,4 +279,9 @@ public class UpdateToServer {
     public PlaneState selfPlane;    // one of these two will be null
     public MonsterState selfMonster;
     public Event[] eventsOccurred;
+}
+
+[Serializable]
+public class RegisterResponse {
+    public string id;
 }
