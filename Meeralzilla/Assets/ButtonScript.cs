@@ -42,6 +42,7 @@ public class ButtonScript : MonoBehaviour
             plane.GetComponent<PlaneController>().GoDown();
         }
         if (goShoot == true && Time.time >= nextTimeToShoot) {
+            Debug.Log("Shooting...");
             nextTimeToShoot = Time.time + 1f/fireRate;
             planeShoot.GetComponent<Plane>().Shoot();
         }

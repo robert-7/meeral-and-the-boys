@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 598b00c4255ea7e46902d6892c994580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireRate: 1
 --- !u!114 &9151472568512805004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,6 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 598b00c4255ea7e46902d6892c994580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireRate: 1
 --- !u!114 &9151472568779113649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 598b00c4255ea7e46902d6892c994580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireRate: 1
 --- !u!114 &9151472569298355737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,6 +537,7 @@ GameObject:
   - component: {fileID: 9151472569775479224}
   - component: {fileID: 9151472569775479227}
   - component: {fileID: 9151472569775479226}
+  - component: {fileID: 7557675258778480444}
   m_Layer: 5
   m_Name: Shoot
   m_TagString: Untagged
@@ -639,6 +643,49 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7557675258778480444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9151472569775479220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7828338806980280940}
+          m_MethodName: shootDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7828338806980280940}
+          m_MethodName: shootUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
 --- !u!1 &9151472569792083076
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,6 +921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 598b00c4255ea7e46902d6892c994580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireRate: 1
 --- !u!114 &9151472570548170558
 MonoBehaviour:
   m_ObjectHideFlags: 0
