@@ -63,33 +63,36 @@ router.put('/', (req, res) => {
     }
 
     // Updating game events.
-    for (var i = 0; i < req.body.events.length; i++) {
-      var newEvent = req.body.events[i];
-      var eventPlaneID = newEvent.planeID;
-      var event = {};
+    if (req.body.events !== undefined) {
+      for (var i = 0; i < req.body.events.length; i++) {
+        var newEvent = req.body.events[i];
+        var eventPlaneID = newEvent.planeID;
+        var event = {};
 
-      if (newEvent.type === 1) { // shooting event, update monster health.
-          master.monster.health--;
-      } else if (newEvent.type === 2) { // hit even, update plane life.
-          if (master.planes[eventPlaneID] !== undefined) {
-              master.planes[eventPlaneID].lives--; // minus plane life
-              master.planes[eventPlaneID].deathTime = Date.now(); // set deathTime.
-              if (master.planes[eventPlaneID].lives === 0) { // If 0, delete plane permanently.
-                  delete req.context.models.master.planes[eventPlaneID];
-              } else {
-                master.planes[eventPlaneID].status = "dead";
-              }
-          } else {
-            console.log('plane not found: ' + eventPlaneID);
-          }
-      }
+        if (newEvent.type === 1) { // shooting event, update monster health.
+            master.monster.health--;
+        } else if (newEvent.type === 2) { // hit even, update plane life.
+            if (master.planes[eventPlaneID] !== undefined) {
+                master.planes[eventPlaneID].lives--; // minus plane life
+                master.planes[eventPlaneID].deathTime = Date.now(); // set deathTime.
+                if (master.planes[eventPlaneID].lives === 0) { // If 0, delete plane permanently.
+                    delete req.context.models.master.planes[eventPlaneID];
+                } else {
+                  master.planes[eventPlaneID].status = "dead";
+                }
+            } else {
+              console.log('plane not found: ' + eventPlaneID);
+            }
+        }
 
-      for (var key in newEvent) { // Copying event obj from request to master obj.
-          event[key] = newEvent[key];
+        for (var key in newEvent) { // Copying event obj from request to master obj.
+            event[key] = newEvent[key];
+        }
+        event.timeStamp = Date.now(); // Tag the event with a timestamp.
+        master.events.push(event); // Push event to events list in master obj.
       }
-      event.timeStamp = Date.now(); // Tag the event with a timestamp.
-      master.events.push(event); // Push event to events list in master obj.
     }
+
     return res.send(req.context.models.master);
 });
 
