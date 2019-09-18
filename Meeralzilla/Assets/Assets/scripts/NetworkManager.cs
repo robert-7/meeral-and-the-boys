@@ -23,6 +23,7 @@ public class NetworkManager : MonoBehaviour {
     public string ServerUrlBase = ""; // No trailing slash
 
     private DroneManager dm;
+    private monsterbase mb;
 
     /*private NetworkManager() {
     }*/
@@ -39,6 +40,15 @@ public class NetworkManager : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         this.dm = gameObject.GetComponent<DroneManager>();
+        if (this.whatAmI == playerType.monster) {
+    //        try {
+                this.mb = GameObject.Find("Player").GetComponent<monsterbase>();
+      //      }
+        //    catch { }
+        } else {
+
+        }
+        
         this.RegisterWithServer();
 
         Debug.Log("sdalfasdfdasfa");
@@ -79,7 +89,8 @@ public class NetworkManager : MonoBehaviour {
         UpdateToServer serverUpdate = new UpdateToServer();
 
         if (this.whatAmI == playerType.monster) {
-            serverUpdate.selfMonster = new MonsterState();
+            //serverUpdate.selfMonster = new MonsterState();
+            serverUpdate.selfMonster = this.mb.GetState();
         } else {
             serverUpdate.selfPlane = new PlaneState();
         }
@@ -93,7 +104,6 @@ public class NetworkManager : MonoBehaviour {
             }
         }
         // TODO: get plane or monster state from playermanager/monstermanager and insert into serverUpdate
-
 
         string serverUpdateJson = JsonUtility.ToJson(serverUpdate);
         Debug.Log(serverUpdateJson);
