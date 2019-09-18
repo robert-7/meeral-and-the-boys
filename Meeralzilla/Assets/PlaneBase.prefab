@@ -222,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prop: {fileID: 6769064424795566917}
   propBlured: {fileID: 6769064424795566919}
-  engenOn: 0
+  engenOn: 1
 --- !u!1 &6769064424795566917
 GameObject:
   m_ObjectHideFlags: 0
