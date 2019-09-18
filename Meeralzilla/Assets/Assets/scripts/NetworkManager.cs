@@ -103,7 +103,7 @@ public class GameState {
 public class Event {
     public string eventId; // opaque
     public int eventCode;  // which type of event
-    public string targetId; // the id string of the plane
+    public string planeId; // the id string of the plane
 }
 
 [Serializable]
@@ -122,6 +122,7 @@ public class PlaneState {
     public string id;
     public double[] rotation;
     public int lives;
+    public string status; // "alive" or "dead"
 }
 
 public class UpdateToServer {
