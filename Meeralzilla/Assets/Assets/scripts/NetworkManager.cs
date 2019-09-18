@@ -24,6 +24,7 @@ public class NetworkManager : MonoBehaviour {
 
     private DroneManager dm;
     private monsterbase mb;
+    private PlaneController pc;
 
     /*private NetworkManager() {
     }*/
@@ -46,7 +47,7 @@ public class NetworkManager : MonoBehaviour {
       //      }
         //    catch { }
         } else {
-
+            this.pc = GameObject.Find("PlaneBase").GetComponent<PlaneController>();
         }
         
         this.RegisterWithServer();
@@ -92,7 +93,8 @@ public class NetworkManager : MonoBehaviour {
             //serverUpdate.selfMonster = new MonsterState();
             serverUpdate.selfMonster = this.mb.GetState();
         } else {
-            serverUpdate.selfPlane = new PlaneState();
+            //serverUpdate.selfPlane = new PlaneState();
+            serverUpdate.selfPlane = this.pc.GetPlaneState();
         }
         if (this.eventQueue.Count > 0) {
             int numEvents = this.eventQueue.Count;
