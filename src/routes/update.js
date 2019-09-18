@@ -3,7 +3,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-EVENT_ENUM = {
+const EVENT_ENUM = {
     0 : 'collision',
     1 : 'hit'
 }
