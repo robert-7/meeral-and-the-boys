@@ -21,7 +21,17 @@ public class DroneManager : MonoBehaviour
     }
 
     public void updateState(GameState gs) {
+        //Planes
+        foreach (PlaneState ps in gs.planes) {
+           if (droneMap.ContainsKey(ps.id)) {
+               //update position
+           } else {
+               //add new plane
+            }
+            //mark plane dirty
+        }
 
+            //remove planes not marked dirty
     }
 
     private void CreateDrone(string s, Vector3 rotation) {
