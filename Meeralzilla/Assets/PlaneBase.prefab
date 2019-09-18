@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5038588117664903007}
   m_Layer: 0
   m_Name: PlaneBase
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,9 +134,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6769064424795566913}
-  m_LocalRotation: {x: -0.7071069, y: 0, z: -0, w: 0.70710677}
+  m_LocalRotation: {x: -0.7071069, y: -0, z: -0, w: 0.70710677}
   m_LocalPosition: {x: 5, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.10000003, y: 0.10000012, z: 0.10000009}
   m_Children:
   - {fileID: 6769064424795533157}
   - {fileID: 6769064424795533159}
@@ -222,7 +222,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prop: {fileID: 6769064424795566917}
   propBlured: {fileID: 6769064424795566919}
+  speed: 10
   engenOn: 1
+  projectile: {fileID: 4923630845353091144, guid: 887d4229d9c09444e8d9cf1f5d5ba975,
+    type: 3}
 --- !u!1 &6769064424795566917
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +283,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 824229c5065ac9e4aa0834586acc7c9c, type: 2}
+  - {fileID: 2100000, guid: 730e9c177f0811647a9ea45708ea7f06, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -3,101 +3,97 @@ import { Router } from 'express';
 
 const router = Router();
 
+const respawnTime = 3000; // in milliseconds, 3 seconds.
 const EVENT_ENUM = {
-    0 : 'collision',
-    1 : 'hit'
+    1 : 'shot',
+    2 : 'hit'
 }
+
+router.get('/clear', (req, res) => {
+    req.context.models.master.planes = {};
+    req.context.models.master.monster = {};
+    req.context.models.master.events = [];
+    return res.send(req.context.models.master);
+});   
 
 router.put('/', (req, res) => {
 
-    // update plane state
-    if (!!selfPlane) {
-        var plane = req.context.models.master.planes[req.params.planeID];
-        console.log(plane);
-        if (!!plane) {
-            const planeUpdate = req.body
-            for (var key in planeUpdate) {
-                plane[key] = planeUpdate[key];
+    var master = req.context.models.master;
+
+    // If it's a plane update request...
+    if (!!req.body.plane) {
+      const planeUpdates = req.body.plane;
+      const planeID = req.body.plane.id;
+
+      if (planeID !== undefined) {
+
+        if (master.planes[planeID] !== undefined) {
+
+          // Respawn logic.
+          if (master.planes[planeID].deathTime !== 0) {
+              if (Date.now() - master.planes[planeID].deathTime > respawnTime) {
+              master.planes[planeID].deathTime = 0;
+              master.planes[planeID].status = 'alive'
             }
+          }
+
+          for (var key in planeUpdates) { // Update typical plane data...
+            master.planes[planeID][key] = planeUpdates[key];
+          }
+        } else {
+          console.log('plane not found: ' + planeID);
+          return res.send('plane not found: ' + planeID);
         }
-        else{
-            console.log('plane not found');
-        }
-            
-        return res.send(req.context.models.master);
+      }
     }
 
-    // update monster state
-    if (!!selfMonster) {
-        var monster = req.context.models.master.monster;
-        if (!!monster) {
-            const monsterUpdate = req.body
-            for (var key in monsterUpdate) { 
-                monster[key] = monsterUpdate[key]; 
-            }
+    // If it's a monster update request...
+    if (!!req.body.monster) {
+        const monsterUpdates = req.body.monster;
+  
+        if (master.monster !== undefined) {
+          for (var key in monsterUpdates) { // Update typical monster data...
+            master.monsterUpdates[key] = monsterUpdates[key];
+          }
+        } else {
+          console.log('monster not found');
+          return res.send('monster not found');
         }
-        else{
-            console.log('monster not found');
-        }
+
     }
 
-    // manage new events eventsOccured[]
-    if (!!eventsOccured && eventsOccure.length > 0) {
+    // Updating game events.
+    if (req.body.events !== undefined) {
+      for (var i = 0; i < req.body.events.length; i++) {
+        var newEvent = req.body.events[i];
+        var eventPlaneID = newEvent.planeID;
+        var event = {};
 
-        for (var event in eventsOccured) {
-            req.context.models.master.events.push(event);
-
-            if (event["eventCode"] == 0) {
-                const planeID = event["planeID"];
-                const plane = req.context.models.master.planes[planeID];
-                if (!!plane) {
-                    plane["lives"]--;
-                    if (plane["lives"] === 0) {
-                        delete req.context.models.master.planes[planeID];
-                    }
-                    else {
-                        plane["status"] = "dead";
-                    }
+        if (newEvent.type === 1) { // shooting event, update monster health.
+            master.monster.health--;
+        } else if (newEvent.type === 2) { // hit even, update plane life.
+            if (master.planes[eventPlaneID] !== undefined) {
+                master.planes[eventPlaneID].lives--; // minus plane life
+                master.planes[eventPlaneID].deathTime = Date.now(); // set deathTime.
+                if (master.planes[eventPlaneID].lives === 0) { // If 0, delete plane permanently.
+                    delete req.context.models.master.planes[eventPlaneID];
+                } else {
+                  master.planes[eventPlaneID].status = "dead";
                 }
-                else {
-                    console.log('plane not found');
-                    return res.send('plane not found');
-                }
-            }
-            else if (event["eventCode"] == 1) {
-                const monster = req.context.models.master.monster;
-                if (!!monster) {
-
-                    // remove monster life when hit
-                    monster["lives"]--;
-                    if (monster["lives"] === 0) {
-                    delete req.context.models.master.monster; // goodbye
-                    }
-
-                    // remove shooting event from plane that shot
-                    const planeID = event["planeID"];
-                    const plane = req.context.models.master.planes[planeID];
-                    if (!!plane) {
-                    delete req.context.models.master.planes[planeID].event;
-                    }
-                    else {
-                        plane["status"] = "dead";
-                    }
-                    
-                }
-                else {
-                    console.log('monster not found');
-                    return res.send('monster not found');
-                }
-            }
-            else {
-                console.log('unknown event: ' + event["type"]);
-                return res.send('unknown event: ' + event["type"]);
+            } else {
+              console.log('plane not found: ' + eventPlaneID);
             }
         }
+
+        for (var key in newEvent) { // Copying event obj from request to master obj.
+            event[key] = newEvent[key];
+        }
+        event.timeStamp = Date.now(); // Tag the event with a timestamp.
+        master.events.push(event); // Push event to events list in master obj.
+      }
     }
-        
+
     return res.send(req.context.models.master);
-  });
+});
 
 export default router;

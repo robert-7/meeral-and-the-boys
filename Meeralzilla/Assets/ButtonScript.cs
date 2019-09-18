@@ -10,12 +10,18 @@ public class ButtonScript : MonoBehaviour
     bool goRight;
     bool goUp;
     bool goDown;
+    bool goShoot;
     GameObject plane;
+    GameObject planeShoot;
+
+    public float fireRate = 1f;
+    private float nextTimeToShoot = 0f;
 
 
     void Start ()
     {
         plane = GameObject.Find("PlaneBase");
+        planeShoot = GameObject.Find("Plane1_S2");
     }
 
     void Update ()
@@ -34,6 +40,11 @@ public class ButtonScript : MonoBehaviour
         if (goDown == true)
         {
             plane.GetComponent<PlaneController>().GoDown();
+        }
+        if (goShoot == true && Time.time >= nextTimeToShoot) {
+            Debug.Log("Shooting...");
+            nextTimeToShoot = Time.time + 1f/fireRate;
+            planeShoot.GetComponent<Plane>().Shoot();
         }
     }
 
@@ -77,4 +88,10 @@ public class ButtonScript : MonoBehaviour
         goRight = false;
     }
 
+    public void shootDown() {
+        goShoot = true;
+    }
+    public void shootUp() {
+        goShoot = false;
+    }
 }
