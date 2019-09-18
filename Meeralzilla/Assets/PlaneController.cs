@@ -11,7 +11,7 @@ public class PlaneController : MonoBehaviour
     private bool facingLeft = false;
     // Update is called once per frame
 
-    private float SideSpeed = 1.0f;
+    private float SideSpeed = 5.0f;
     private float UpdownSpeed = 1.0f;
     private float maxHeight = 40;
     private float minHeight = 0;

@@ -57,7 +57,7 @@ public class NetworkManager : MonoBehaviour {
         this.networkCoroutine = DoServerUpdate();
         StartCoroutine(this.networkCoroutine);
 
-        Debug.Log("sdalfasdfdasfa");
+       // Debug.Log("sdalfasdfdasfa");
         Beep();
     }
 
@@ -124,12 +124,12 @@ public class NetworkManager : MonoBehaviour {
         // TODO: get plane or monster state from playermanager/monstermanager and insert into serverUpdate
 
         string serverUpdateJson = JsonUtility.ToJson(serverUpdate);
-        Debug.Log(serverUpdateJson);
+        //Debug.Log(serverUpdateJson);
         string url = this.ServerUrlBase + "/update";
 
         // call server with update and get new state back
         string newStateJson = this.sendServerCall(url, "PUT", serverUpdateJson);
-        Debug.Log(newStateJson);
+        //Debug.Log(newStateJson);
         newState = JsonUtility.FromJson<GameState>(newStateJson);
 
         // Call any events if present
@@ -181,7 +181,7 @@ public class NetworkManager : MonoBehaviour {
         this.dm.updateState(newState);
 
         string json = JsonUtility.ToJson(newState);
-        Debug.Log(json);
+       // Debug.Log(json);
     }
 
     // Called when a plane controlled locally takes a shot
@@ -252,7 +252,7 @@ public class NetworkManager : MonoBehaviour {
         // Get the response.  
         WebResponse response = request.GetResponse();
         // Display the status.  
-        Debug.Log(((HttpWebResponse)response).StatusDescription);
+        //Debug.Log(((HttpWebResponse)response).StatusDescription);
 
         // Get the stream containing content returned by the server. 
         // The using block ensures the stream is automatically closed. 

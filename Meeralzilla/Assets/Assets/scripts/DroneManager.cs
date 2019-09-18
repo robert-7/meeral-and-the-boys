@@ -58,6 +58,9 @@ public class DroneManager : MonoBehaviour
         }
 
         //move hands           
+        if (RightHand == null || LeftHand == null || gs.monster == null || gs.monster.rh  ==null|| gs.monster.lh == null) {
+            return;
+        }
         RightHand.transform.position = new Vector3((float)gs.monster.rh[0], (float)gs.monster.rh[1], (float)gs.monster.rh[2]);
         LeftHand.transform.position = new Vector3((float)gs.monster.lh[0], (float)gs.monster.lh[1], (float)gs.monster.lh[2]);
     }
@@ -72,7 +75,9 @@ public class DroneManager : MonoBehaviour
     public void CreateDrone(string id, Vector3 rotation) {
         if (!droneMap.ContainsKey(id))
         {
-            GameObject newPlane = Instantiate(dronePrefab, new Vector3(), Quaternion.Euler(0, rotation.y, rotation.z));
+
+            GameObject newPlane = Instantiate(dronePrefab, new Vector3(5,0,0), Quaternion.Euler(0, rotation.y, rotation.z));
+            newPlane.transform.parent = gameObject.transform;
             droneMap.Add(id, newPlane);
         }
     }
