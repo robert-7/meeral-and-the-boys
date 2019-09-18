@@ -7,8 +7,8 @@ public class Plane : MonoBehaviour {
 	public GameObject prop;
 	public GameObject propBlured;
 
-	public float speed = 10f;
 	public bool dead = false;
+	public float speed = 20f;
 
 	public bool engenOn;
 

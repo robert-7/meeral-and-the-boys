@@ -93,6 +93,12 @@ router.put('/', (req, res) => {
       }
     }
 
+    for (var i = master.events.length-1; i >= 0; i--) { // handle removing old events
+      if (Date.now() - master.events[i].timeStamp >= 1000) { // if the timestamp of this event is the first that is than one second old
+        master.events.splice(i,1); // take the splice up to this index
+      }
+    }
+
     return res.send(req.context.models.master);
 });
 
