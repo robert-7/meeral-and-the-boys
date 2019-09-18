@@ -1,14 +1,130 @@
+```
+13:44:43 [owen.sawyer:~] $ curl -X POST localhost:8080/planes
+{
+  "id": "30fd040e-3736-4044-ae4d-ba9f732ed936",
+  "lives": 20,
+  "rotation": [
+    209,
+    350
+  ],
+  "status": "alive",
+  "deathTime": 0
+}
+
+13:44:53 [owen.sawyer:~] $ curl -X POST localhost:8080/monster
+{
+  "health": 5,
+  "lh": [
+    -10,
+    0,
+    0
+  ],
+  "lhRotation": [
+    0,
+    0,
+    0
+  ],
+  "rh": [
+    10,
+    0,
+    0
+  ],
+  "rhRotation": [
+    0,
+    0,
+    0
+  ],
+  "head": [
+    0,
+    0,
+    0
+  ],
+  "headRotation": [
+    0,
+    0,
+    0
+  ]
+}
+
+13:44:58 [owen.sawyer:~] $ curl -X PUT -H "Content-Type:application/json" http://localhost:8080/update -d '{"plane": {"id":"30fde4d-ba9f732ed936","lives":19,"rotation":[100,150],"status":"alive","deathTime":0},"events": [{"planeID": "315827f5-e24b-45ab-99c6-ff0171e943a6", "type": 1}]}'
+{"planes":{"30fd040e-3736-4044-ae4d-ba9f732ed936":{"id":"30fd040e-3736-4044-ae4d-ba9f732ed936","lives":19,"rotation":[100,150],"status":"alive","deathTime":0}},"monster":{"health":4,"lh":[-10,0,0],"lhRotation":[0,0,0],"rh":[10,0,0],"rhRotation":[0,0,0],"head":[0,0,0],"headRotation":[0,0,0]},"events":[{"planeID":"315827f5-e24b-45ab-99c6-ff0171e943a6","type":1,"timeStamp":1568828732666}]}
+
+13:45:34 [owen.sawyer:~] $ curl localhost:8080/planes
+{
+  "planes": {
+    "30fd040e-3736-4044-ae4d-ba9f732ed936": {
+      "id": "30fd040e-3736-4044-ae4d-ba9f732ed936",
+      "lives": 19,
+      "rotation": [
+        100,
+        150
+      ],
+      "status": "alive",
+      "deathTime": 0
+    }
+  },
+  "monster": {
+    "health": 4,
+    "lh": [
+      -10,
+      0,
+      0
+    ],
+    "lhRotation": [
+      0,
+      0,
+      0
+    ],
+    "rh": [
+      10,
+      0,
+      0
+    ],
+    "rhRotation": [
+      0,
+      0,
+      0
+    ],
+    "head": [
+      0,
+      0,
+      0
+    ],
+    "headRotation": [
+      0,
+      0,
+      0
+    ]
+  },
+  "events": [
+    {
+      "planeID": "315827f5-e24b-45ab-99c6-ff0171e943a6",
+      "type": 1,
+      "timeStamp": 1568828732666
+    }
+  ]
+}
+```
+
 ### PLANE
-* curl -X PUT localhost:8080/planes
-  * {"id":"6430d87c-289c-4b2d-b035-5c3b959b35a0","lives":20,"coord":[20,20,44],"rotation":90}
-* curl localhost:8080/planes
-  * [{"id":"6430d87c-289c-4b2d-b035-5c3b959b35a0","lives":20,"coord":[20,20,44],"rotation":90}]
-* curl -X POST -H "Content-Type:application/json" http://localhost:8080/planes/6430d87c-289c-4b2d-b035-5c3b959b35a0 -d '{"lives":"3", "rotation":10}'
-  * {"id":"6430d87c-289c-4b2d-b035-5c3b959b35a0","lives":"3","coord":[20,20,44],"rotation":10}
+#### Create Plane
+* curl -X POST localhost:8080/planes 
+  * {"id":"e2631b75-ea2d-4928-a727-262e4f3b0ad8","lives":20,"rotation":[271,222],"status":"alive","createTime":1568817952178}
+#### Update Plane
+* curl -X PUT -H "Content-Type:application/json" http://localhost:8080/planes/e2631b75-ea2d-4928-a727-262e4f3b0ad8 -d '{"lives":3, "rotation":[250,220]}'
+  * {"planes":{"e2631b75-ea2d-4928-a727-262e4f3b0ad8":{"id":"e2631b75-ea2d-4928-a727-262e4f3b0ad8","lives":3,"rotation":[250,220],"status":"alive","createTime":1568817952178}},"monster":{}, event" : [{type: 1, rotation: [1,2]}]
+
+#### Create Monster
+* curl -X POST localhost:8080/monster 
+  * {"health":5,"lh":[-10,0,0],"lhRotation":[0,0,0],"rh":[10,0,0],"rhRotation":[0,0,0],"head":[0,0,0],"headRotation":[0,0,0]}
+#### Update Monster
+** Events WIP
+* curl -X PUT -H "Content-Type:application/json" http://104.197.210.110:8080/monster -d '{"event":"hit", "id":"e2631b75-ea2d-4928-a727-262e4f3b0ad8"}'
+  * {"planes":{"e2631b75-ea2d-4928-a727-262e4f3b0ad8":{"id":"e2631b75-ea2d-4928-a727-262e4f3b0ad8","lives":3,"rotation":[250,220],"status":"alive","createTime":1568817952178}},"monster":{"health":5,"lh":[-10,0,0],"lhRotation":[0,0,0],"rh":[10,0,0],"rhRotation":[0,0,0],"head":[0,0,0],"headRotation":[0,0,0]}
 
 ### PROD
 * npm run build
-* npm run seve
+* npm run serve
 * curl -X POST 104.197.210.110:8080/planes
 * curl 104.197.210.110:8080/planes
 
