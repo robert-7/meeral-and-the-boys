@@ -7,11 +7,14 @@ public class DroneManager : MonoBehaviour
     public GameObject dronePrefab;
 
     private Dictionary<string, GameObject> droneMap;
-   
+    private Dictionary<string, bool> dirtyMap;
+
+       
     // Start is called before the first frame update
     void Start()
     {
         droneMap = new Dictionary<string, GameObject>();
+        dirtyMap = new Dictionary<string, bool>();
     }
 
     // Update is called once per frame
@@ -22,34 +25,50 @@ public class DroneManager : MonoBehaviour
 
     public void updateState(GameState gs) {
         //Planes
+        dirtyMap.Clear();
+
         foreach (PlaneState ps in gs.planes) {
            if (droneMap.ContainsKey(ps.id)) {
-               //update position
-           } else {
-               //add new plane
+                //make planes move around
+                GameObject droneObj = droneMap[ps.id];
+                Quaternion target = Quaternion.Euler(0, (float)ps.rotation[0], (float)ps.rotation[1]);
+                droneObj.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5.0f);
+            } else {
+                this.CreateDrone(ps.id, new Vector3(0, (float)ps.rotation[0], (float)ps.rotation[1]));
             }
             //mark plane dirty
+            dirtyMap.Add(ps.id, true);
         }
 
-            //remove planes not marked dirty
+        //remove planes not marked dirty
+        foreach (var key in droneMap.Keys) {
+            if (!dirtyMap.ContainsKey(key)){
+                RemoveDrone(key);
+            }
+        }
     }
 
-    private void CreateDrone(string s, Vector3 rotation) {
-        if (!droneMap.ContainsKey(s))
+    private void CreateDrone(string id, Vector3 rotation) {
+        if (!droneMap.ContainsKey(id))
         {
             GameObject newPlane = Instantiate(dronePrefab, new Vector3(), Quaternion.Euler(0, rotation.y, rotation.z));
-            droneMap.Add(s, newPlane);
+            droneMap.Add(id, newPlane);
         }
     } 
 
-    private void RemoveDrone(string s)
+    private void RemoveDrone(string id)
     {
-        if (droneMap.ContainsKey(s))
+        if (droneMap.ContainsKey(id))
         {
-            GameObject doomedPlane = droneMap[s];
+            GameObject doomedPlane = droneMap[id];
             GameObject.Destroy(doomedPlane);
-            droneMap.Remove(s);
+            droneMap.Remove(id);
         }
+    }
+
+    private void FireShotFromPlane(string id)
+    {
+
     }
 
 }
