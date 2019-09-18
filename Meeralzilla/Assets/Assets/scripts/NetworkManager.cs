@@ -92,10 +92,12 @@ public class NetworkManager : MonoBehaviour {
         if (this.whatAmI == playerType.monster) {
             //serverUpdate.selfMonster = new MonsterState();
             serverUpdate.selfMonster = this.mb.GetState();
+            serverUpdate.selfMonster.exists = true;
         } else {
             //serverUpdate.selfPlane = new PlaneState();
             serverUpdate.selfPlane = this.pc.GetPlaneState();
             serverUpdate.selfPlane.id = this.selfId;
+            serverUpdate.selfPlane.exists = true;
         }
         if (this.eventQueue.Count > 0) {
             int numEvents = this.eventQueue.Count;
@@ -271,6 +273,7 @@ public class Event {
 
 [Serializable]
 public class MonsterState {
+    public bool exists;
     public int health;
     public double[] lh;
     public double[] lhRotation;
@@ -282,6 +285,7 @@ public class MonsterState {
 
 [Serializable]
 public class PlaneState {
+    public bool exists;
     public string id;
     public double[] rotation;
     public int lives;
