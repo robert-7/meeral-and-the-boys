@@ -16,9 +16,12 @@ public class Plane : MonoBehaviour {
 	private GameObject bullet;
 	private float timer = 0.0f;
 
+    private NetworkManager nm;
+
 	void Start() {
 		 gameObject.GetComponent<ParticleSystem>().enableEmission = false;
-	}
+        nm = GameObject.Find("GameManager").GetComponent<NetworkManager>();
+    }
 
 	void Update () 
 	{
@@ -50,6 +53,8 @@ public class Plane : MonoBehaviour {
 		vec.Normalize();
 		
 		bullet.GetComponent<Rigidbody>().velocity = vec * speed;
+
+        this.nm.ShootBullet();
 	}
 
 	public void Die() {

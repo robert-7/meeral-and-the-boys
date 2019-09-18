@@ -185,11 +185,11 @@ public class NetworkManager : MonoBehaviour {
     }
 
     // Called when a plane controlled locally takes a shot
-    public void ShootBullet(string planeId) {
+    public void ShootBullet() {
         Event shootEvent = new Event();
         shootEvent.eventCode = (int)eventCodes.shoot;
-        shootEvent.planeId = planeId;
-        shootEvent.eventId = planeId + this.eventCounter++;
+        shootEvent.planeId = this.selfId;
+        shootEvent.eventId = this.selfId + this.eventCounter++;
 
         try {
             this.eventsSeen.Add(shootEvent.eventId, true);
