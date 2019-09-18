@@ -11,9 +11,12 @@ public class NetworkManager : MonoBehaviour {
     private Queue<Event> eventQueue = new Queue<Event>();
 
     enum eventCodes {shoot = 1, planeDead = 2};
+    enum playerType { plane, monster }
 
     private double timeSince = 0;
     private const double pollTime = 0.1;
+    private playerType whatAmI = playerType.plane;
+    private int eventCounter = 0;
 
     /*private NetworkManager() {
     }*/
@@ -45,6 +48,29 @@ public class NetworkManager : MonoBehaviour {
     void PollServer() {
         //Debug.Log("poll" + this.timeSince);
         GameState state = new GameState();
+
+        UpdateToServer serverUpdate = new UpdateToServer();
+
+        if (this.whatAmI == playerType.monster) {
+            serverUpdate.selfMonster = new MonsterState();
+        } else {
+            serverUpdate.selfPlane = new PlaneState();
+        }
+        if (this.eventQueue.Count > 0) {
+            int numEvents = this.eventQueue.Count;
+
+            serverUpdate.eventsOccurred = new Event[numEvents];
+
+            for (int i = 0; i < numEvents; i++) {
+                serverUpdate.eventsOccurred[i] = this.eventQueue.Dequeue();
+            }
+        }
+
+
+
+        string serverUpdateJson = JsonUtility.ToJson(serverUpdate);
+        Debug.Log(serverUpdateJson);
+
         string json = JsonUtility.ToJson(state);
         Debug.Log(json);
     }
@@ -53,6 +79,8 @@ public class NetworkManager : MonoBehaviour {
     public void ShootBullet(string planeId) {
         Event shootEvent = new Event();
         shootEvent.eventCode = (int)eventCodes.shoot;
+        shootEvent.planeId = planeId;
+        shootEvent.eventId = planeId + this.eventCounter++;
         this.eventQueue.Enqueue(shootEvent);
     }
 
@@ -60,7 +88,8 @@ public class NetworkManager : MonoBehaviour {
     public void KillPlane(string planeId) {
         Event killEvent = new Event();
         killEvent.eventCode = (int)eventCodes.planeDead;
-        killEvent.targetId = planeId;
+        killEvent.planeId = planeId;
+        killEvent.eventId = planeId + this.eventCounter++;
         this.eventQueue.Enqueue(killEvent);
     }
 
@@ -125,6 +154,7 @@ public class PlaneState {
     public string status; // "alive" or "dead"
 }
 
+[Serializable]
 public class UpdateToServer {
     public PlaneState selfPlane;    // one of these two will be null
     public MonsterState selfMonster;
