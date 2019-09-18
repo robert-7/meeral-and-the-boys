@@ -5,16 +5,21 @@ using UnityEngine;
 public class MonsterHUD : MonoBehaviour
 {
     // Start is called before the first frame update
-    float HealthBar = 1;
+    private float initialXScale;
+    float HealthBar = 1f;
+    
 
     void Start()
     {
-        
+        initialXScale = transform.localScale.x;
+        transform.localScale = new Vector3(initialXScale * HealthBar, transform.localScale.y, transform.localScale.z);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+
         if (Input.GetKey("escape"))
         {
             Debug.Log("GOODBYE");
@@ -22,8 +27,8 @@ public class MonsterHUD : MonoBehaviour
           //  UnityEditor.EditorApplication.isPlaying = false;
         }
 
-        transform.localScale = new Vector3(HealthBar, 0.1f, 0.1f);
-        if (Input.GetKey("x"))
+        
+        if (Input.GetKeyDown("x"))
         {
             damage();
         }
@@ -32,10 +37,12 @@ public class MonsterHUD : MonoBehaviour
     public void damage()
     {
         if (HealthBar > 0) {
-            HealthBar -= .01f;
+            HealthBar -= 0.1f;
+
         } else
         {
             HealthBar = 0;
         }
+        transform.localScale = new Vector3(initialXScale * HealthBar, transform.localScale.y, transform.localScale.z);
     }
 }

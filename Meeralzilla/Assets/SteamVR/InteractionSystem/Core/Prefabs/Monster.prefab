@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 447954}
   - component: {fileID: 11465950}
   - component: {fileID: 2876459140418376675}
+
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -234,8 +235,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107946}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 70, z: -50}
+  m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children:
   - {fileID: 494198}
   - {fileID: 402768}
@@ -272,7 +273,7 @@ MonoBehaviour:
   audioListener: {fileID: 471722}
   headsetOnHead:
     actionPath: /actions/default/in/HeadsetOnHead
-    needsReinit: 1
+    needsReinit: 0
   allowToggleTo2D: 1
 --- !u!114 &2876459140418376675
 MonoBehaviour:
@@ -831,16 +832,16 @@ MonoBehaviour:
   trackedObject: {fileID: 0}
   grabPinchAction:
     actionPath: /actions/default/in/GrabPinch
-    needsReinit: 1
+    needsReinit: 0
   grabGripAction:
     actionPath: /actions/default/in/GrabGrip
-    needsReinit: 1
+    needsReinit: 0
   hapticAction:
     actionPath: /actions/default/out/Haptic
-    needsReinit: 1
+    needsReinit: 0
   uiInteractAction:
     actionPath: /actions/default/in/InteractUI
-    needsReinit: 1
+    needsReinit: 0
   useHoverSphere: 1
   hoverSphereTransform: {fileID: 0}
   hoverSphereRadius: 0.05
@@ -977,7 +978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poseAction:
     actionPath: /actions/default/in/Pose
-    needsReinit: 1
+    needsReinit: 0
   inputSource: 1
   origin: {fileID: 0}
   onTransformUpdated:
@@ -1095,7 +1096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poseAction:
     actionPath: /actions/default/in/Pose
-    needsReinit: 1
+    needsReinit: 0
   inputSource: 2
   origin: {fileID: 0}
   onTransformUpdated:

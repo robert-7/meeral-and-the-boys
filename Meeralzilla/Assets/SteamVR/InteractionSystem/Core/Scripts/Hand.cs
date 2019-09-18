@@ -152,6 +152,13 @@ namespace Valve.VR.InteractionSystem
             }
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log(other.name);
+        }
+
+
+
 
         //-------------------------------------------------
         // The Interactable object this Hand is currently hovering over

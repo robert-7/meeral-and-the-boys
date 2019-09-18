@@ -7,12 +7,18 @@ public class Plane : MonoBehaviour {
 	public GameObject prop;
 	public GameObject propBlured;
 
-	public float speed = 10f;
+	public bool dead = false;
+	public float speed = 20f;
 
 	public bool engenOn;
 
 	public GameObject projectile;
 	private GameObject bullet;
+	private float timer = 0.0f;
+
+	void Start() {
+		 gameObject.GetComponent<ParticleSystem>().enableEmission = false;
+	}
 
 	void Update () 
 	{
@@ -24,6 +30,17 @@ public class Plane : MonoBehaviour {
 			prop.SetActive (true);
 			propBlured.SetActive (false);
 		}
+
+		if(dead) {
+			Debug.Log("Plane has died :(");
+			gameObject.GetComponent<ParticleSystem>().enableEmission = true;
+			timer += Time.deltaTime;
+			if(timer > 2.0f) {
+				timer = 0f;
+				Destroy(gameObject);
+			}
+
+		}
 	}
 	public void Shoot()
 	{
@@ -33,6 +50,10 @@ public class Plane : MonoBehaviour {
 		vec.Normalize();
 		
 		bullet.GetComponent<Rigidbody>().velocity = vec * speed;
+	}
+
+	public void Die() {
+		 dead = true;
 	}
 }
 
