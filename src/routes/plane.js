@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
         Math.floor(Math.random() * 360) + 1
     ],
     status: 'alive',
-    createTime = Date.now()
+    createTime : Date.now()
   };
 
   req.context.models.master.planes[id] = newPlane;
