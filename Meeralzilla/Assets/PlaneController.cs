@@ -8,6 +8,7 @@ public class PlaneController : MonoBehaviour
     private float tiltAroundZ = 0;
 
     private bool movingLeft = true;
+    private bool facingLeft = false;
     // Update is called once per frame
 
     private float SideSpeed = 1.0f;
@@ -33,10 +34,24 @@ public class PlaneController : MonoBehaviour
             movingLeft = false;
         }
 
+        if (movingLeft && !facingLeft)
+        {
+            GameObject plane = GameObject.Find("Plane1_S2");
+            plane.transform.localRotation *= Quaternion.Euler(0, 0, 180);
+            facingLeft = true;
+        } else if (!movingLeft && facingLeft)
+        {
+            GameObject plane = GameObject.Find("Plane1_S2");
+            plane.transform.localRotation *= Quaternion.Euler(0, 0, 180);
+            facingLeft = false;
+        }
+
 
         if (movingLeft) {
             tiltAroundY = tiltAroundY + SideSpeed;
-        } else {
+            
+        }
+        else {
             tiltAroundY = tiltAroundY - SideSpeed;
         }
 
