@@ -21,9 +21,9 @@ router.put('/', (req, res) => {
     var master = req.context.models.master;
 
     // If it's a plane update request...
-    if (!!req.body.plane) {
-      const planeUpdates = req.body.plane;
-      const planeID = req.body.plane.id;
+    if (!!req.body.selfPlane) {
+      const planeUpdates = req.body.selfPlane;
+      const planeID = req.body.selfPlane.id;
 
       if (planeID !== undefined) {
 
@@ -48,8 +48,8 @@ router.put('/', (req, res) => {
     }
 
     // If it's a monster update request...
-    if (!!req.body.monster) {
-        const monsterUpdates = req.body.monster;
+    if (!!req.body.selfMonster) {
+        const monsterUpdates = req.body.selfMonster;
   
         if (master.monster !== undefined) {
           for (var key in monsterUpdates) { // Update typical monster data...
@@ -63,9 +63,9 @@ router.put('/', (req, res) => {
     }
 
     // Updating game events.
-    if (req.body.events !== undefined) {
-      for (var i = 0; i < req.body.events.length; i++) {
-        var newEvent = req.body.events[i];
+    if (req.body.eventsOccurred !== undefined) {
+      for (var i = 0; i < req.body.eventsOccurred.length; i++) {
+        var newEvent = req.body.eventsOccurred[i];
         var eventPlaneID = newEvent.planeID;
         var event = {};
 
@@ -98,7 +98,10 @@ router.put('/', (req, res) => {
         master.events.splice(i,1); // take the splice up to this index
       }
     }
-
+    req.context.models.master.planeList = [];
+    for (key in req.context.models.master.planes) { //Convert planes object to a list of planes.
+      req.context.models.master.planeList.push(req.context.models.master.planes[key]);
+    }
     return res.send(req.context.models.master);
 });
 
