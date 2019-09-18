@@ -9,7 +9,7 @@
 ### PROD
 * npm run build
 * npm run seve
-* curl -X PUT 104.197.210.110:8080/planes
+* curl -X POST 104.197.210.110:8080/planes
 * curl 104.197.210.110:8080/planes
 
 # Simple Node with Express Server with REST API
