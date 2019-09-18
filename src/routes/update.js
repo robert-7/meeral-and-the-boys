@@ -13,6 +13,7 @@ router.get('/clear', (req, res) => {
     req.context.models.master.planes = {};
     req.context.models.master.monster = {};
     req.context.models.master.events = [];
+    req.context.models.master.planeList = [];
     return res.send(req.context.models.master);
 });   
 
