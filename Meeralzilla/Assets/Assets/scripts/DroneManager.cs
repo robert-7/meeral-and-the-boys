@@ -5,6 +5,9 @@ using UnityEngine;
 public class DroneManager : MonoBehaviour
 {
     public GameObject dronePrefab;
+    public GameObject LeftHandPrefab;
+    public GameObject RightHandPrefab;
+    public GameObject Head;
 
     private Dictionary<string, GameObject> droneMap;
     private Dictionary<string, bool> dirtyMap;
@@ -46,17 +49,20 @@ public class DroneManager : MonoBehaviour
                 RemoveDrone(key);
             }
         }
+
+
+
     }
 
-    private void CreateDrone(string id, Vector3 rotation) {
+    public void CreateDrone(string id, Vector3 rotation) {
         if (!droneMap.ContainsKey(id))
         {
             GameObject newPlane = Instantiate(dronePrefab, new Vector3(), Quaternion.Euler(0, rotation.y, rotation.z));
             droneMap.Add(id, newPlane);
         }
-    } 
+    }
 
-    private void RemoveDrone(string id)
+    public void RemoveDrone(string id)
     {
         if (droneMap.ContainsKey(id))
         {
@@ -66,7 +72,7 @@ public class DroneManager : MonoBehaviour
         }
     }
 
-    private void FireShotFromPlane(string id)
+    public void FireShotFromPlane(string id)
     {
 
     }
