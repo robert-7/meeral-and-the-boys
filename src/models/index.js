@@ -2,7 +2,8 @@ let master = {
   "planes": {
   },
   "monster": {
-  }
+  },
+  "events" : []
 }
 
 
