@@ -35,7 +35,6 @@ public class ButtonScript : MonoBehaviour
         {
             plane.GetComponent<PlaneController>().GoDown();
         }
-        Debug.Log("test");
     }
 
     public void leftDown ()
