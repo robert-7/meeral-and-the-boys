@@ -43,10 +43,12 @@ router.put('/', (req, res) => {
             const plane = req.context.models.master.planes[planeID];
             if (!!plane) {
                 plane["lives"]--;
+                // handle plane death
                 if (plane["lives"] === 0) {
                     delete req.context.models.master.planes[planeID];
                 }
                 else {
+                    plane["planeDeath"] = Date.now();
                     plane["status"] = "dead";
                 }
             }
