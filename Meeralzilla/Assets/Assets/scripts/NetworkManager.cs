@@ -50,16 +50,17 @@ public class NetworkManager : MonoBehaviour {
     }
 
     // Called when a plane controlled locally takes a shot
-    public void ShootBullet() {
+    public void ShootBullet(string planeId) {
         Event shootEvent = new Event();
         shootEvent.eventCode = (int)eventCodes.shoot;
         this.eventQueue.Enqueue(shootEvent);
     }
 
     // Called when a monster controlled locally smacks a plane
-    public void KillPlane() {
+    public void KillPlane(string planeId) {
         Event killEvent = new Event();
         killEvent.eventCode = (int)eventCodes.planeDead;
+        killEvent.targetId = planeId;
         this.eventQueue.Enqueue(killEvent);
     }
 
@@ -95,12 +96,14 @@ public class NetworkManager : MonoBehaviour {
 public class GameState {
     public MonsterState monster;
     public PlaneState[] planes;
+    public Event[] events;
 }
 
 [Serializable]
 public class Event {
-    public int eventCode;
-    public string targetId;
+    public string eventId; // opaque
+    public int eventCode;  // which type of event
+    public string targetId; // the id string of the plane
 }
 
 [Serializable]
@@ -117,7 +120,12 @@ public class MonsterState {
 [Serializable]
 public class PlaneState {
     public string id;
-    public double[] coordinates;
-    public double rotation;
+    public double[] rotation;
     public int lives;
+}
+
+public class UpdateToServer {
+    public PlaneState selfPlane;    // one of these two will be null
+    public MonsterState selfMonster;
+    public Event[] eventsOccurred;
 }
