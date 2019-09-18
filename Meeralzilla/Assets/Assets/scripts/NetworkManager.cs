@@ -26,6 +26,8 @@ public class NetworkManager : MonoBehaviour {
     private monsterbase mb;
     private PlaneController pc;
 
+    private IEnumerator networkCoroutine;
+
     /*private NetworkManager() {
     }*/
 
@@ -52,16 +54,27 @@ public class NetworkManager : MonoBehaviour {
         
         this.RegisterWithServer();
 
-        Debug.Log("sdalfasdfdasfa");
+        this.networkCoroutine = DoServerUpdate();
+        StartCoroutine(this.networkCoroutine);
+
+       // Debug.Log("sdalfasdfdasfa");
         Beep();
     }
 
     // Update is called once per frame
     void Update() {
-        this.timeSince += Time.deltaTime;
+       /* this.timeSince += Time.deltaTime;
         if (this.timeSince >= pollTime) {
             this.timeSince -= pollTime;
             PollServer();
+        }*/
+    }
+
+    IEnumerator DoServerUpdate() {
+        for (; ; )
+        {
+            PollServer();
+            yield return new WaitForSeconds(.1f);
         }
     }
 
@@ -111,12 +124,12 @@ public class NetworkManager : MonoBehaviour {
         // TODO: get plane or monster state from playermanager/monstermanager and insert into serverUpdate
 
         string serverUpdateJson = JsonUtility.ToJson(serverUpdate);
-        Debug.Log(serverUpdateJson);
+        //Debug.Log(serverUpdateJson);
         string url = this.ServerUrlBase + "/update";
 
         // call server with update and get new state back
         string newStateJson = this.sendServerCall(url, "PUT", serverUpdateJson);
-        Debug.Log(newStateJson);
+        //Debug.Log(newStateJson);
         newState = JsonUtility.FromJson<GameState>(newStateJson);
 
         // Call any events if present
@@ -168,7 +181,7 @@ public class NetworkManager : MonoBehaviour {
         this.dm.updateState(newState);
 
         string json = JsonUtility.ToJson(newState);
-        Debug.Log(json);
+       // Debug.Log(json);
     }
 
     // Called when a plane controlled locally takes a shot
@@ -239,7 +252,7 @@ public class NetworkManager : MonoBehaviour {
         // Get the response.  
         WebResponse response = request.GetResponse();
         // Display the status.  
-        Debug.Log(((HttpWebResponse)response).StatusDescription);
+        //Debug.Log(((HttpWebResponse)response).StatusDescription);
 
         // Get the stream containing content returned by the server. 
         // The using block ensures the stream is automatically closed. 
