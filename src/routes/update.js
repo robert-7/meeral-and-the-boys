@@ -38,7 +38,9 @@ router.put('/', (req, res) => {
           }
 
           for (var key in planeUpdates) { // Update typical plane data...
-            master.planes[planeID][key] = planeUpdates[key];
+            if (key === 'rotation') {
+              master.planes[planeID][key] = planeUpdates[key];
+            }
           }
         } else {
           console.log('plane not found: ' + planeID);
@@ -53,7 +55,11 @@ router.put('/', (req, res) => {
   
         if (master.monster !== undefined) {
           for (var key in monsterUpdates) { // Update typical monster data...
-            master.monsterUpdates[key] = monsterUpdates[key];
+            if (key !== 'health') {
+              if (monsterUpdates[key].length > 0) {
+                master.monsterUpdates[key] = monsterUpdates[key];
+              }
+            }
           }
         } else {
           console.log('monster not found');
