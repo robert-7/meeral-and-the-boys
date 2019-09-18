@@ -7,7 +7,12 @@ public class Plane : MonoBehaviour {
 	public GameObject prop;
 	public GameObject propBlured;
 
+	public float speed = 10f;
+
 	public bool engenOn;
+
+	public GameObject projectile;
+	private GameObject bullet;
 
 	void Update () 
 	{
@@ -19,6 +24,15 @@ public class Plane : MonoBehaviour {
 			prop.SetActive (true);
 			propBlured.SetActive (false);
 		}
+	}
+	public void Shoot()
+	{
+		Debug.Log("Shot fired");
+		bullet = Instantiate(projectile, transform.position, Quaternion.identity);
+		Vector3 vec = transform.parent.transform.position - transform.position ;
+		vec.Normalize();
+		
+		bullet.GetComponent<Rigidbody>().velocity = vec * speed;
 	}
 }
 
