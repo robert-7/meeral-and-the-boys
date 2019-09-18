@@ -13,6 +13,8 @@ public class PlaneController : MonoBehaviour
 
     private float SideSpeed = 1.0f;
     private float UpdownSpeed = 1.0f;
+    private float maxHeight = 40;
+    private float minHeight = 0;
 
     void Update()
     {
@@ -70,11 +72,17 @@ public class PlaneController : MonoBehaviour
     }
 
     public void GoUp() {
-        tiltAroundZ = tiltAroundZ + UpdownSpeed;
+        if (transform.eulerAngles.z < maxHeight)
+        {
+            tiltAroundZ = tiltAroundZ + UpdownSpeed;
+        }
     }
 
     public void GoDown() {
-        tiltAroundZ = tiltAroundZ - UpdownSpeed;
+        if (transform.eulerAngles.z > minHeight)
+        {
+            tiltAroundZ = tiltAroundZ - UpdownSpeed;
+        }
     }
 
 
