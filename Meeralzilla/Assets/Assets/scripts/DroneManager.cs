@@ -7,19 +7,21 @@ public class DroneManager : MonoBehaviour
     public GameObject dronePrefab;
     public GameObject LeftHandPrefab;
     public GameObject RightHandPrefab;
-    public GameObject Head;
+    public GameObject HeadPrefab;
 
     private Dictionary<string, GameObject> droneMap;
     private Dictionary<string, bool> dirtyMap;
 
     private GameObject LeftHand;
     private GameObject RightHand;
+    private GameObject Head;
 
     // Start is called before the first frame update
     void Start()
     {
         droneMap = new Dictionary<string, GameObject>();
         dirtyMap = new Dictionary<string, bool>();
+
 
         SpawnHands();
     }
@@ -64,6 +66,7 @@ public class DroneManager : MonoBehaviour
     {
         RightHand = Instantiate(RightHandPrefab, new Vector3(), Quaternion.identity);
         LeftHand = Instantiate(RightHandPrefab, new Vector3(), Quaternion.identity);
+        Head = Instantiate(HeadPrefab, new Vector3(), Quaternion.identity);
     }
 
     public void CreateDrone(string id, Vector3 rotation) {
