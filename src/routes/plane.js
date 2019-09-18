@@ -16,7 +16,9 @@ router.post('/', (req, res) => {
     rotation: [ // y-rotation - [0-359], z-rotation - [0-359])
         Math.floor(Math.random() * 360) + 1,
         Math.floor(Math.random() * 360) + 1
-    ]
+    ],
+    status: 'alive',
+    createTime = Date.now()
   };
 
   req.context.models.master.planes[id] = newPlane;

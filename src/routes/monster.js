@@ -22,6 +22,8 @@ router.post('/', (req, res) => {
       rhRotation: [0,0,0],
       head: [0,0,0],
       headRotation: [0,0,0],
+      event: '',
+      planeID: ''
     };
   
     req.context.models.master.monster = newMonster;
@@ -35,6 +37,24 @@ router.put('/', (req, res) => {
     if (!!monster) {
         const monsterUpdate = req.body
         for (var key in monsterUpdate) { monster[key] = monsterUpdate[key]; }
+        // when a collision event occurs, decrement the lives of the planeIDCollifed
+        if (!!monsterUpdate["event"] && monsterUpdate["event"]["type"] == "collision") {
+            const planeID = monsterUpdate["event"]["planeID"];
+            const plane = req.context.models.master.planes[planeID];
+            if (!!plane) {
+                plane["lives"]--;
+                if (plane["lives"] === 0) {
+                    delete req.context.models.master.planes[planeID];
+                }
+                else {
+                    plane["status"] = "dead";
+                }
+            }
+            else {
+                console.log('plane not found');
+                return res.send('plane not found');
+            }
+        }
     }
     else{
         console.log('monster not found')
