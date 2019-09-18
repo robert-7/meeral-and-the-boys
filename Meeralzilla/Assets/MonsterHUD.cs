@@ -19,7 +19,7 @@ public class MonsterHUD : MonoBehaviour
         {
             Debug.Log("GOODBYE");
             Application.Quit();
-            UnityEditor.EditorApplication.isPlaying = false;
+          //  UnityEditor.EditorApplication.isPlaying = false;
         }
 
         transform.localScale = new Vector3(HealthBar, 0.1f, 0.1f);
