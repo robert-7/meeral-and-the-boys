@@ -12,12 +12,16 @@ public class DroneManager : MonoBehaviour
     private Dictionary<string, GameObject> droneMap;
     private Dictionary<string, bool> dirtyMap;
 
-       
+    private GameObject LeftHand;
+    private GameObject RightHand;
+
     // Start is called before the first frame update
     void Start()
     {
         droneMap = new Dictionary<string, GameObject>();
         dirtyMap = new Dictionary<string, bool>();
+
+        SpawnHands();
     }
 
     // Update is called once per frame
@@ -27,6 +31,7 @@ public class DroneManager : MonoBehaviour
     }
 
     public void updateState(GameState gs) {
+
         //Planes
         dirtyMap.Clear();
 
@@ -50,8 +55,15 @@ public class DroneManager : MonoBehaviour
             }
         }
 
+        //move hands           
+        RightHand.transform.position = new Vector3((float)gs.monster.rh[0], (float)gs.monster.rh[1], (float)gs.monster.rh[2]);
+        LeftHand.transform.position = new Vector3((float)gs.monster.lh[0], (float)gs.monster.lh[1], (float)gs.monster.lh[2]);
+    }
 
-
+    public void SpawnHands()
+    {
+        RightHand = Instantiate(RightHandPrefab, new Vector3(), Quaternion.identity);
+        LeftHand = Instantiate(RightHandPrefab, new Vector3(), Quaternion.identity);
     }
 
     public void CreateDrone(string id, Vector3 rotation) {
