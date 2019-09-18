@@ -1,3 +1,111 @@
+```
+13:44:43 [owen.sawyer:~] $ curl -X POST localhost:8080/planes
+{
+  "id": "30fd040e-3736-4044-ae4d-ba9f732ed936",
+  "lives": 20,
+  "rotation": [
+    209,
+    350
+  ],
+  "status": "alive",
+  "deathTime": 0
+}
+
+13:44:53 [owen.sawyer:~] $ curl -X POST localhost:8080/monster
+{
+  "health": 5,
+  "lh": [
+    -10,
+    0,
+    0
+  ],
+  "lhRotation": [
+    0,
+    0,
+    0
+  ],
+  "rh": [
+    10,
+    0,
+    0
+  ],
+  "rhRotation": [
+    0,
+    0,
+    0
+  ],
+  "head": [
+    0,
+    0,
+    0
+  ],
+  "headRotation": [
+    0,
+    0,
+    0
+  ]
+}
+
+13:44:58 [owen.sawyer:~] $ curl -X PUT -H "Content-Type:application/json" http://localhost:8080/update -d '{"plane": {"id":"30fde4d-ba9f732ed936","lives":19,"rotation":[100,150],"status":"alive","deathTime":0},"events": [{"planeID": "315827f5-e24b-45ab-99c6-ff0171e943a6", "type": 1}]}'
+{"planes":{"30fd040e-3736-4044-ae4d-ba9f732ed936":{"id":"30fd040e-3736-4044-ae4d-ba9f732ed936","lives":19,"rotation":[100,150],"status":"alive","deathTime":0}},"monster":{"health":4,"lh":[-10,0,0],"lhRotation":[0,0,0],"rh":[10,0,0],"rhRotation":[0,0,0],"head":[0,0,0],"headRotation":[0,0,0]},"events":[{"planeID":"315827f5-e24b-45ab-99c6-ff0171e943a6","type":1,"timeStamp":1568828732666}]}
+
+13:45:34 [owen.sawyer:~] $ curl localhost:8080/planes
+{
+  "planes": {
+    "30fd040e-3736-4044-ae4d-ba9f732ed936": {
+      "id": "30fd040e-3736-4044-ae4d-ba9f732ed936",
+      "lives": 19,
+      "rotation": [
+        100,
+        150
+      ],
+      "status": "alive",
+      "deathTime": 0
+    }
+  },
+  "monster": {
+    "health": 4,
+    "lh": [
+      -10,
+      0,
+      0
+    ],
+    "lhRotation": [
+      0,
+      0,
+      0
+    ],
+    "rh": [
+      10,
+      0,
+      0
+    ],
+    "rhRotation": [
+      0,
+      0,
+      0
+    ],
+    "head": [
+      0,
+      0,
+      0
+    ],
+    "headRotation": [
+      0,
+      0,
+      0
+    ]
+  },
+  "events": [
+    {
+      "planeID": "315827f5-e24b-45ab-99c6-ff0171e943a6",
+      "type": 1,
+      "timeStamp": 1568828732666
+    }
+  ]
+}
+```
+
 ### PLANE
 #### Create Plane
 * curl -X POST localhost:8080/planes 
