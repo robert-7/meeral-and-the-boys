@@ -1,14 +1,22 @@
 ### PLANE
-* curl -X PUT localhost:8080/planes
-  * {"id":"6430d87c-289c-4b2d-b035-5c3b959b35a0","lives":20,"coord":[20,20,44],"rotation":90}
-* curl localhost:8080/planes
-  * [{"id":"6430d87c-289c-4b2d-b035-5c3b959b35a0","lives":20,"coord":[20,20,44],"rotation":90}]
-* curl -X POST -H "Content-Type:application/json" http://localhost:8080/planes/6430d87c-289c-4b2d-b035-5c3b959b35a0 -d '{"lives":"3", "rotation":10}'
-  * {"id":"6430d87c-289c-4b2d-b035-5c3b959b35a0","lives":"3","coord":[20,20,44],"rotation":10}
+#### Create Plane
+* curl -X POST localhost:8080/planes 
+  * {"id":"e2631b75-ea2d-4928-a727-262e4f3b0ad8","lives":20,"rotation":[271,222],"status":"alive","createTime":1568817952178}
+#### Update Plane
+* curl -X PUT -H "Content-Type:application/json" http://localhost:8080/planes/e2631b75-ea2d-4928-a727-262e4f3b0ad8 -d '{"lives":"3", "rotation":[250,220]}'
+  * {"planes":{"e2631b75-ea2d-4928-a727-262e4f3b0ad8":{"id":"e2631b75-ea2d-4928-a727-262e4f3b0ad8","lives":"3","rotation":[250,220],"status":"alive","createTime":1568817952178}},"monster":{}}
+
+#### Create Monster
+* curl -X POST localhost:8080/monster 
+  * {"health":5,"lh":[-10,0,0],"lhRotation":[0,0,0],"rh":[10,0,0],"rhRotation":[0,0,0],"head":[0,0,0],"headRotation":[0,0,0],"event":"","planeID":""}
+#### Update Monster
+** Events WIP
+* curl -X PUT -H "Content-Type:application/json" http://104.197.210.110:8080/monster -d '{"event":"hit", "planeID":"e2631b75-ea2d-4928-a727-262e4f3b0ad8"}'
+  * {"planes":{"e2631b75-ea2d-4928-a727-262e4f3b0ad8":{"id":"e2631b75-ea2d-4928-a727-262e4f3b0ad8","lives":"3","rotation":[250,220],"status":"alive","createTime":1568817952178}},"monster":{"health":5,"lh":[-10,0,0],"lhRotation":[0,0,0],"rh":[10,0,0],"rhRotation":[0,0,0],"head":[0,0,0],"headRotation":[0,0,0],"event":"hit","planeID":"e2631b75-ea2d-4928-a727-262e4f3b0ad8"}}
 
 ### PROD
 * npm run build
-* npm run seve
+* npm run serve
 * curl -X POST 104.197.210.110:8080/planes
 * curl 104.197.210.110:8080/planes
 
