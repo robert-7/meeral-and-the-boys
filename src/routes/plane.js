@@ -2,7 +2,7 @@ import uuidv4 from 'uuid/v4';
 import { Router } from 'express';
 
 const router = Router();
-const respawnTime = 3;
+const respawnTime = 3000; // in milliseconds, 3 seconds.
 
 router.get('/', (req, res) => {
     return res.send(req.context.models.master);
@@ -38,7 +38,7 @@ router.put('/', (req, res) => {
 
         // Respawn logic.
         if (master.planes[planeID].deathTime !== 0) {
-          if (Date.now() - master.planes[planeID].deathTime > 3000) {
+          if (Date.now() - master.planes[planeID].deathTime > respawnTime) {
             master.planes[planeID].deathTime = 0;
             master.planes[planeID].status = 'alive'
           }
