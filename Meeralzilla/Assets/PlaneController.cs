@@ -76,4 +76,12 @@ public class PlaneController : MonoBehaviour
     public void GoDown() {
         tiltAroundZ = tiltAroundZ - UpdownSpeed;
     }
+
+
+    public PlaneState GetPlaneState() {
+        PlaneState r = new PlaneState();
+        r.rotation = new double[] {gameObject.transform.rotation.eulerAngles.y, gameObject.transform.rotation.eulerAngles.z };
+
+        return r;
+    }
 }
