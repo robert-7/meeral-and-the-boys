@@ -95,6 +95,7 @@ public class NetworkManager : MonoBehaviour {
         } else {
             //serverUpdate.selfPlane = new PlaneState();
             serverUpdate.selfPlane = this.pc.GetPlaneState();
+            serverUpdate.selfPlane.id = this.selfId;
         }
         if (this.eventQueue.Count > 0) {
             int numEvents = this.eventQueue.Count;
