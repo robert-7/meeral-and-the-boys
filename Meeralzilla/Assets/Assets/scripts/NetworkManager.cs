@@ -84,7 +84,7 @@ public class NetworkManager : MonoBehaviour {
         if (this.whatAmI == playerType.plane) {
             endpoint = "/planes";
         } else {
-            endpoint = "/monsters";
+            endpoint = "/monster";
         }
 
         string url = this.ServerUrlBase + endpoint;
