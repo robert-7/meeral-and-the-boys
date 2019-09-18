@@ -9,14 +9,18 @@ public class NetworkManager : MonoBehaviour {
     private static NetworkManager instance = null;
 
     private Queue<Event> eventQueue = new Queue<Event>();
+    private Dictionary<string, bool> eventsSeen = new Dictionary<string, bool>();
 
-    enum eventCodes {shoot = 1, planeDead = 2};
+    enum eventCodes { shoot = 1, planeDead = 2 };
     enum playerType { plane, monster }
 
     private double timeSince = 0;
     private const double pollTime = 0.1;
     private playerType whatAmI = playerType.plane;
     private int eventCounter = 0;
+    private string selfId;
+
+    private DroneManager dm;
 
     /*private NetworkManager() {
     }*/
@@ -32,6 +36,8 @@ public class NetworkManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        this.dm = gameObject.GetComponent<DroneManager>();
+
         Debug.Log("sdalfasdfdasfa");
         Beep();
     }
@@ -47,7 +53,7 @@ public class NetworkManager : MonoBehaviour {
 
     void PollServer() {
         //Debug.Log("poll" + this.timeSince);
-        GameState state = new GameState();
+        GameState newState = new GameState();
 
         UpdateToServer serverUpdate = new UpdateToServer();
 
@@ -66,12 +72,60 @@ public class NetworkManager : MonoBehaviour {
             }
         }
 
-
-
         string serverUpdateJson = JsonUtility.ToJson(serverUpdate);
         Debug.Log(serverUpdateJson);
 
-        string json = JsonUtility.ToJson(state);
+        // TODO: call server with update and get new state back
+
+        // Call any events if present
+        if (newState.events != null) {
+            for (int i = 0; i < newState.events.Length; i++) {
+                bool blarg = false;
+                Event thingy = newState.events[i];
+
+                if (this.eventsSeen.TryGetValue(thingy.eventId, out blarg)) {
+                    continue;
+                }
+
+                try {
+                    this.eventsSeen.Add(thingy.eventId, true);
+                }
+                catch (ArgumentException) { }
+
+                if (thingy.eventCode == (int)eventCodes.planeDead) {
+                    this.dm.RemoveDrone(thingy.planeId);
+                } else {
+                    this.dm.FireShotFromPlane(thingy.planeId);
+                }
+            }
+        }
+        newState.events = new Event[0];
+
+        // Check if any of the planes are us
+        int foundSelfPlaneAtIndex = -1;
+        for (int i = 0; i < newState.planes.Length; i++) {
+            if (newState.planes[i].id == this.selfId) {
+                foundSelfPlaneAtIndex = i;
+                break;
+            }
+        }
+
+        // If one of the planes is us, filter it out
+        if (foundSelfPlaneAtIndex >= 0) {
+            PlaneState[] newPlaneStates = new PlaneState[newState.planes.Length - 1];
+            for (int i = 0; i < newState.planes.Length; i++) {
+                if (i < foundSelfPlaneAtIndex) {
+                    newPlaneStates[i] = newState.planes[i];
+                } else if (i > foundSelfPlaneAtIndex) {
+                    newPlaneStates[i - 1] = newState.planes[i];
+                }
+            }
+            newState.planes = newPlaneStates;
+        }
+
+        this.dm.updateState(newState);
+
+        string json = JsonUtility.ToJson(newState);
         Debug.Log(json);
     }
 
@@ -81,6 +135,12 @@ public class NetworkManager : MonoBehaviour {
         shootEvent.eventCode = (int)eventCodes.shoot;
         shootEvent.planeId = planeId;
         shootEvent.eventId = planeId + this.eventCounter++;
+
+        try {
+            this.eventsSeen.Add(shootEvent.eventId, true);
+        }
+        catch (ArgumentException) { }
+
         this.eventQueue.Enqueue(shootEvent);
     }
 
@@ -90,6 +150,12 @@ public class NetworkManager : MonoBehaviour {
         killEvent.eventCode = (int)eventCodes.planeDead;
         killEvent.planeId = planeId;
         killEvent.eventId = planeId + this.eventCounter++;
+
+        try {
+            this.eventsSeen.Add(killEvent.eventId, true);
+        }
+        catch (ArgumentException) { }
+
         this.eventQueue.Enqueue(killEvent);
     }
 
